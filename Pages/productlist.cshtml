@@ -1,0 +1,167 @@
+﻿@page "/productlist"
+@model ProductList
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="~/products/style.css">
+</head>
+<body>
+    <header>
+        @if (long.Parse(HttpContext.Request.Query["id"]) == 0)
+        {
+            <div class="category-pannel">
+                <div class="cat-title">
+                    <span>категории</span>
+                    <img class="arrow" src="~/Images/Common/bottom-arrow.png" alt="">
+                </div>
+                <div class="cat-list" disp="false">
+                    <div class="category all">
+                        показать все
+                    </div>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <div cat="@cat.Id" class="category">
+                            @cat.CategoryName
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        <div class="refs">
+            <a href="/busketpage" class="home bask"><img src="~/Images/Common/basket.png" />
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="counter">
+                        @Model.Customer.Busket.BusketModels.Count()
+                    </div>
+                }
+                else
+                {
+                    <div class="counter">
+                        0
+                    </div>
+                }
+            </a>
+            <a href="/mainpage" class="home"><img src="~/Images/Common/edithome.png" /></a>
+        </div>
+    </header>
+    <img class="sale-banner" style="height:auto;" src="~/Images/Common/baner3.png"/>
+    <div class="prod-list">
+        @foreach (var prod in Model.Products)
+        {
+            <div cat="@prod.CategoryId" class="product">
+                <div class="pre-img">
+                    <img class="prod-image" src="@prod.ImagePath" alt="">
+                    @if (prod.Sales != 0)
+                    {
+                        <div class="sales">
+                            <span>-@prod.Sales</span>
+                            <img src="~/Images/Common/percents.png" alt="">
+                        </div>
+                    }
+                </div>
+                <div class="prod-title">
+                    @prod.ProductName
+                </div>
+                <div class="cost-busket">
+                    <form asp-page="productlist" method="post">
+                        <input asp-for="ProdId" type="hidden" value="@prod.Id" />
+                        <button type="submit" class="busket">в корзину</button>
+                    </form>
+                    <div class="cost">
+                        <span>@prod.Price</span>
+                        <img src="~/Images/Common/ruble.png" alt="">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script src="~/products/script.js"></script>
+</body>
+</html>
+
+@functions{
+    public class ProductList : PageModel
+    {
+        private IProductRepository productRepository;
+
+        private ICustomerRepository customerRepository;
+
+        private IBasketRepository basketRepository;
+
+        public ProductList(IProductRepository productRepository, ICustomerRepository customerRepository, IBasketRepository basketRepository)
+        {
+            this.productRepository = productRepository;
+
+            this.customerRepository = customerRepository;
+
+            this.basketRepository = basketRepository;
+        }
+
+        [BindProperty]
+        public List<Product> Products { get; set; } = new List<Product>();
+
+        [BindProperty]
+        public List<Category> Categories { get; set; } = new List<Category>();
+
+        public Customer Customer { get; set; }
+
+        [BindProperty]
+        public long ProdId { get; set; }
+
+        public IActionResult OnGet()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string name = User.Identity.Name;
+
+                string email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                Customer = customerRepository.GetCustomerByNameAndEmail(name, email);
+            }
+
+            long id = long.Parse(HttpContext.Request.Query["id"]);
+
+            Console.WriteLine(id);
+
+            if (id == 0)
+            {
+                Products = productRepository.GetProducts().ToList();
+            }else
+            {
+                Products = productRepository.GetCategoryById(id).Products;
+            }
+
+            Categories = productRepository.GetCategories().ToList();
+
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            if(HttpContext.User.Identity.IsAuthenticated)
+            {
+                string name = User.Identity.Name;
+
+                string email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                Customer = customerRepository.GetCustomerByNameAndEmail(name, email);
+
+                BusketModel model = new BusketModel()
+                {
+                    ProdId = ProdId
+                };
+
+                basketRepository.AddProductToBasket(model, Customer.Id, true);
+
+                return Redirect("/basketpage");
+            }
+
+            return Redirect("/loginpage");
+        }
+    }
+}

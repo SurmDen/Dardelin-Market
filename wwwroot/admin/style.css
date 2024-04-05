@@ -1,0 +1,428 @@
+body{
+    background-color: rgb(24, 25, 23);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+}
+
+body a{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+header{
+    padding: 7px;
+    background-color:rgb(40, 37, 37);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
+}
+
+.refs{
+    margin-right: 5px;
+}
+
+header img{
+    height: 45px;
+    width: auto;
+}
+
+.grid{
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    margin-right: 15px;
+    border-radius: 8px;
+}
+
+.login{
+    margin-right: 5px;
+}
+
+.admin-title{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+
+.top-padding{
+    height: 80px;
+}
+
+.control-pannel{
+    display: grid;
+    grid-template-columns: 260px 260px 260px 260px 260px;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.control-element{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 7px;
+    border-radius: 7px;
+    width: 260px;
+    border: 1px solid white;
+}
+
+.control-element img{
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-title{
+    font-size: 25px;
+}
+
+.info-data{
+    font-size: 30px;
+}
+
+.color-1{
+    background-color:rgb(29, 40, 60);
+}
+
+.color-2{
+    background-color: rgb(27, 51, 43);
+}
+
+.color-3{
+    background-color: rgb(154, 94, 51);
+}
+
+.color-4{
+    background-color: rgb(51, 18, 82);
+}
+
+.color-5{
+    background-color: rgb(91, 50, 63);
+}
+
+.visitors-pannel{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    flex-direction: column;
+}
+
+.visitor{
+    display: grid;
+    font-size: 20px;
+    grid-template-columns: 200px 250px 200px 200px;
+    gap: 20px;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.v-header{
+    margin-bottom: 20px;
+    background-color: rgb(27, 51, 43);
+}
+
+.v-header div{
+    border-right: 1px solid white;
+}
+
+.v-last{
+    border-right: none!important;
+}
+
+.ip{
+    color: rgb(132, 28, 58);
+}
+
+.dialogs-space{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.dialog-pannel{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    min-height: 500px;
+    border: 2px solid white;
+    border-radius: 8px;
+}
+
+.dialog-title{
+    font-size: 20px;
+    padding: 5px;
+    border-bottom: 2px solid white;
+    background: rgb(27, 51, 43);
+    border-radius: 8px 8px 0 0 ;
+}
+
+.dialog-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog{
+    padding: 5px;
+    border-bottom: 2px solid white;
+    text-decoration: none;
+    color: white;
+    outline: none;
+    background-color: rgb(40, 37, 37);
+    position: relative;
+}
+
+.message-counter{
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 3px;
+    border-radius: 50%;
+    background-color: rgb(27, 51, 43);
+    border: 1px solid white;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+}
+
+.user-dialog-data{
+    display: flex;
+    align-items: center;
+}
+
+.dialog img{
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.dialog span{
+    font-size: 25px;
+}
+
+.last-message{
+    padding-left: 10px;
+    word-break: break-all;
+    overflow-x: hidden;
+    height: 20px;
+    background: rgb(54, 54, 54);
+}
+
+
+
+
+.order-space{
+    margin-top: 30px;
+    display: none;
+    justify-content: center;
+}
+
+.order-pre-list{
+    display: flex;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 5px;
+    position: relative;
+}
+
+.order-list{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 5px;
+}
+
+.order{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+}
+
+.cust-order-title{
+    background-color: rgb(27, 51, 43);
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-info{
+    display: flex;
+}
+
+.ordered-product{
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 2px;
+    background-color: rgb(35, 69, 77);
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    width:200px;
+    border-radius: 5px;
+}
+
+.or-prod-cost{
+    margin-left: 20px;
+    color: chocolate;
+    font-size: 25px;
+}
+
+.order-summary{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.total-sum{
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    color: rgb(154, 94, 51);
+}
+
+.total-sum img{
+    height: 25px;
+    width: auto;
+}
+
+.order-summary button{
+    color: white;
+    background:none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    padding: 2px 5px 2px 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-space{
+    display:none;
+}
+
+.prod-list {
+    display: grid;
+    grid-template-columns: 250px 250px 250px;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.product{
+    width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.pre-img{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border: 1px solid rgb(48, 194, 174);
+    border-radius: 10px;
+    position: relative;
+}
+
+.sales{
+    position: absolute;
+    bottom: 7px;
+    left: 3px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(180, 29, 29);
+    text-align: center;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.sales img{
+    margin-left: 5px;
+    height: 20px;
+}
+
+.prod-image{
+    width: 253px;
+    min-height: 253px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.cost-busket{
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    justify-content: space-between;
+}
+
+.cost{
+    font-size: 27px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    align-items: center;
+}
+
+.ruble{
+    width: 30px;
+}
+
+.busket{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    background:none;
+    text-align: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.busket img{
+    width: 45px;
+}
+
+.prod-title{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    background-color: rgb(17, 104, 92);
+    text-align: center;
+    border-radius: 5px;
+}
+
+.cr-prod{
+    background:#16643e;
+    font-size:23px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding:3px 6px 3px 6px;
+    border: 1px solid white;
+    border-radius:6px;
+}
+
+

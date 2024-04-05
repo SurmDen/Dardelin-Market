@@ -1,0 +1,91 @@
+﻿@page "/prodedit/{id}"
+
+@model EditProduct
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit product</title>
+    <link rel="stylesheet" href="~/editproduct/style.css">
+</head>
+<body>
+    <header>
+        <div class="shop-name grid">
+            <img class="logo" src="~/Images/Common/logotip.png" alt="">
+            <img class="shop-title" src="~/Images/Common/nazvanie.png" alt="">
+        </div>
+        <div class="refs grid">
+            <a class="login" href="/adminpage">
+                <img src="~/Images/Common/edithome.png" alt="">
+            </a>
+        </div>
+    </header>
+    <div class="signing-pannel">
+        <div class="sign-title">
+            Редактирование
+        </div>
+        <form asp-page="/prodedit" method="POST">
+            <input asp-for="Product.Id" type="hidden">
+            <div class="input-group">
+                <label>Товар</label>
+                <input asp-for="Product.ProductName" type="text">
+            </div>
+            <div class="input-group">
+                <label>Стоимость</label>
+                <input asp-for="Product.Price" type="number">
+            </div>
+            <div class="input-group">
+                <label>Скидка</label>
+                <input asp-for="Product.Sales" type="number">
+            </div>
+            <button type="submit" class="btn">Обновить</button>
+        </form>
+        <div class="glass">
+        </div>
+        <div class="r-first"></div>
+        <div class="r-second"></div>
+    </div>
+    <script src="~/editproduct/script.js"></script>
+</body>
+</html>
+
+@functions{
+    [Authorize(Roles ="Admin")]
+    public class EditProduct : PageModel
+    {
+        private IProductRepository productRepository;
+
+        public EditProduct(IProductRepository productRepository)
+        {
+            this.productRepository = productRepository;
+        }
+
+        [BindProperty]
+        public Product Product { get; set; }
+
+
+        public IActionResult OnGet(long id)
+        {
+            Product = productRepository.GetProductById(id);
+
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            Product freshProd = productRepository.GetProductById(Product.Id);
+
+            freshProd.ProductName = Product.ProductName;
+
+            freshProd.Price = Product.Price;
+
+            freshProd.Sales = Product.Sales;
+
+            productRepository.UpdateProduct(freshProd);
+
+            return Redirect("/adminpage");
+        }
+    }
+}

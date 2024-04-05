@@ -1,0 +1,111 @@
+﻿@page "/createpage"
+
+@model CreateModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reristry</title>
+    <link rel="stylesheet" href="~/create/style.css">
+</head>
+<body>
+    <div class="signing-pannel">
+        <div class="sign-title">
+            Регистрация
+        </div>
+        <form asp-page="createpage" method="POST">
+            <div class="input-group">
+                <label>Имя пользователя</label>
+                <input asp-for="Customer.Name" type="text">
+            </div>
+            <div class="input-group">
+                <label>Эл. почта</label>
+                <input asp-for="Customer.Email" type="text">
+            </div>
+            <div class="input-group">
+                <label>Область</label>
+                <input asp-for="Customer.District" type="text">
+            </div>
+            <div class="input-group">
+                <label>Населенный пункт</label>
+                <input asp-for="Customer.City" type="text">
+            </div>
+            <div class="input-group">
+                <label>Адрес</label>
+                <input asp-for="Customer.PostAddress" type="text">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input asp-for="Customer.Password" type="password">
+            </div>
+            <button type="submit" class="btn">Отправить</button>
+            <a href="/loginpage">На страницу входа</a>
+        </form>
+        <div class="glass">
+        </div>
+        <div class="r-first"></div>
+        <div class="r-second"></div>
+        <img src="~/Images/Common/vhod.png" alt="" class="cat">
+    </div>
+    <script src="~/create/script.js"></script>
+</body>
+</html>
+
+@functions{
+    public class CreateModel : PageModel
+    {
+        private ICustomerRepository customerRepository;
+
+        public CreateModel(ICustomerRepository customerRepository)
+        {
+            this.customerRepository = customerRepository;
+        }
+
+        [BindProperty]
+        public Customer Customer { get; set; }
+
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (Customer != null)
+            {
+                try
+                {
+                    bool isNotExists =  customerRepository.CreateCustomer(Customer);
+
+                    if (isNotExists)
+                    {
+                        LoginModel loginModel = new LoginModel()
+                            {
+                                Name = Customer.Name,
+
+                                Email = Customer.Email,
+
+                                Role = "User"
+                            };
+
+                        await Signing.SignInAsync(loginModel, HttpContext);
+
+                        return Redirect("/mainpage");
+                    }
+                    else
+                    {
+                        return Page();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return Page();
+        }
+    }
+}

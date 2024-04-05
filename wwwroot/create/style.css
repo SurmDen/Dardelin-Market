@@ -1,0 +1,144 @@
+body{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    background-color: rgb(24, 25, 23);
+}
+
+center {
+    display: none;
+}
+
+body input{
+    color: rgb(109, 104, 104);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: rgb(51, 49, 49);
+    height: 25px;
+}
+
+body button{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background: rgb(185, 111, 153);
+    height: 30px;
+}
+
+.signing-pannel{
+    padding: 20px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin: 5px;
+    width: 25%;
+    margin-bottom:50px;
+}
+
+.sign-title{
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: 600;
+    z-index: 10;
+}
+
+.glass{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 10px;
+    opacity: 0.3;
+    background-color: rgb(12, 12, 12);
+    z-index: 4;
+    border: 1px solid rgb(163, 157, 157);
+}
+
+form{
+    z-index: 11;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+form a{
+    text-decoration: none;
+    font-size: 22px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-align: center;
+    background: rgb(109, 104, 104);
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 15px;
+}
+
+.input-group{
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group input{
+    margin-top: 3px;
+    width: 100%;
+    font-size: 18px;
+    padding-left: 5px;
+    border: 1px solid rgb(93, 88, 88);
+    z-index: 10;
+}
+
+.btn{
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+.r-first{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: rgb(93,24,59);
+    background: linear-gradient(117deg, rgba(93,24,59,1) 10%, rgba(148,38,96,1) 25%, rgba(222,112,174,1) 55%, rgba(245,206,227,1) 100%);
+    top: -65px;
+    left: -65px;
+    border-radius: 50%;
+}
+
+.r-second{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    bottom: -65px;
+    background: rgb(1,23,22);
+    background: linear-gradient(117deg, rgba(1,23,22,1) 0%, rgba(29,119,121,1) 33%, rgba(85,195,200,1) 59%, rgba(200,233,230,1) 100%);
+    right: -65px;
+    border-radius: 50%;
+}
+
+.cat{
+    position: absolute;
+    width: 200px;
+    height: auto;
+    top: -108px;
+    background: none;
+    z-index: 11;
+}

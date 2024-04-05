@@ -1,0 +1,253 @@
+﻿@page "/mainpage"
+@model MainPage
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    <link rel="stylesheet" href="~/main/style.css">
+</head>
+<body>
+    <header>
+        <div class="h-title grow-a">
+            <div class="h-title-shop-name">
+                <img class="logo" src="~/Images/Common/logotip.png" alt="">
+                <img class="shop-name" src="~/Images/Common/nazvanie.png" alt="">
+            </div>
+        </div>
+        <form class="h-search grow-b">
+            <div class="h-inp-group">
+                <img src="~/Images/Common/search1.png" alt="">
+                <input class="search-input" value="поиск по товарам" type="text">
+                <button type="submit"><img src="~/Images/Common/arrow.png" alt=""></button>
+            </div>
+        </form>
+        <div class="h-refs grow-c">
+            <a href="/productlist?id=0">
+                <div class="pre-img">
+                    <img class="prof-img" src="~/Images/Common/profil1.png" alt="">
+                </div>
+                <div class="h-refs-name">
+                    Товары
+                </div>
+            </a>
+            <a href="/basketpage">
+                <div class="pre-img bask">
+                    <img src="~/Images/Common/basket.png" alt="">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="counter">
+                                @Model.Current.Busket.BusketModels.Count()
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="counter">
+                                0
+                            </div>
+                        }
+                </div>
+                <div class="h-refs-name">
+                    Корзина
+                </div>
+            </a>
+            <a href="#">
+                <div class="pre-img">
+                    <img src="~/Images/Common/percents.png" alt="">
+                </div>
+                <div class="h-refs-name">
+                    Скидки
+                </div>
+            </a>
+            <a href="/loginpage">
+                <div class="pre-img">
+                    <img src="~/Images/Common/exit.png" alt="">
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="h-refs-name">
+                        Выход
+                    </div>
+                }
+                else
+                {
+                    <div class="h-refs-name">
+                        Вход
+                    </div>
+                }
+            </a>
+        </div>
+    </header>
+    <section class="first-section">
+        <div class="menu">
+            <div class="menu-profile">
+                <div class="menu-profile-user">
+                    <img src="~/Images/Common/user.png" alt="">
+                    @if (Model.Current != null)
+                    {
+                        <div>@Model.Current.Name</div>
+                    }
+                </div>
+                <div class="menu-profile-sales">
+                    <div>Покупки</div>
+                    @if (Model.Current != null)
+                    {
+                        <span>@Model.Current.Orders.Count()</span>
+                    }
+                </div>
+            </div>
+            <div class="menu-link">
+                <a class="menu-link-group phone">
+                    <img src="~/Images/Common/phone.png" alt="">
+                    <span>+7(995)889-92-65</span>
+                </a>
+                <a class="menu-link-group">
+                    <img src="~/Images/Common/gmail.png" alt="">
+                    <span>dardelin09@gmail.com</span>
+                </a>
+                <a class="menu-link-group">
+                    <img src="~/Images/Common/instagram.png" alt="">
+                    <span>dardelin09</span>
+                </a>
+                <a class="menu-link-group">
+                    <img src="~/Images/Common/telegram.png" alt="">
+                    <span>t.me/dardelin</span>
+                </a>
+            </div>
+        </div>
+        <div class="main-part">
+            <div class="first-banner">
+                <img src="~/Images/Common/banner.png" alt="">
+            </div>
+            <div class="good-list">
+                @foreach (Category category in Model.Categories)
+                {
+                    <a href="/productlist?id=@category.Id" class="good">
+                        <img src="@category.ImagePath" alt="">
+                        <span>@category.CategoryName</span>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="chat">
+            <img src="~/Images/Common/chat (1).png" alt="">
+        </div>
+
+        <div class="chat-pannel">
+            <div class="chat-title">
+                <img src="~/Images/Common/admin.png" alt="">
+                <span>Администратор</span>
+                <div class="closer">
+                    <img src="~/Images/Common/close.png" alt="">
+                </div>
+            </div>
+            <div class="message-box">
+                <!--<div class="mess user">
+                    <div class="user-context">Здравствуйте, у меня возникли проблемы в доставкой, не подскажите где она?</div>
+                </div>
+                <div class="mess admin">
+                    <div class="admin-context">Добрый день, возникли проблемы на складе, из-за этого произошла небольшая задержка.</div>
+                </div>-->
+                @if (Model.Chat != null)
+                {
+                    if (Model.Chat.Messages.Count() != 0)
+                    {
+                        foreach (Message message in Model.Chat.Messages)
+                        {
+                            if (message.UserEmail == Model.Current.Email)
+                            {
+                                <div class="mess user">
+                                    <div class="user-context">@message.MessageContext</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="mess admin">
+                                    <div class="admin-context">@message.MessageContext</div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="send-group">
+                <input type="text">
+                <button>OK</button>
+            </div>
+        </div>
+    }
+    
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <input class="current-email" type="hidden" value="@Model.Current.Email"/>
+    }
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/main/chathandler.js"></script>
+    <script src="~/main/script.js"></script>
+</body>
+</html>
+
+@functions{
+    public class MainPage : PageModel
+    {
+        private ICustomerRepository customerRepository;
+
+        private IProductRepository productRepository;
+
+        private IChatRepository chatRepository;
+
+        public MainPage(ICustomerRepository customerRepository, IProductRepository productRepository, IChatRepository chatRepository)
+        {
+            this.customerRepository = customerRepository;
+
+            this.productRepository = productRepository;
+
+            this.chatRepository = chatRepository;
+        }
+
+        [BindProperty]
+        public Customer Current { get; set; }
+
+        [BindProperty]
+        public List<Category> Categories { get; set; } = new List<Category>();
+
+        [BindProperty]
+        public Chat Chat { get; set; }
+
+        public IActionResult OnGet()
+        {
+            try
+            {
+                string name = User.Identity.Name;
+
+                string email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                Current = customerRepository.GetCustomerByNameAndEmail(name, email);
+
+                if (Current.Role == "User")
+                {
+                    Chat = chatRepository.GetChatByName(Current.Email);
+                }
+                else
+                {
+                    return Redirect("/adminpage");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Categories = productRepository.GetCategories().ToList();
+
+            return Page();
+        }
+    }
+}

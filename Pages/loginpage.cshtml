@@ -1,0 +1,88 @@
+﻿@page "/loginpage"
+@model LoginPage
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign in</title>
+    <link rel="stylesheet" href="~/signin/style.css">
+</head>
+<body>
+    <div class="signing-pannel">
+        <div class="sign-title">
+            Вход
+        </div>
+        <form asp-page="loginpage" method="POST">
+            <div class="input-group">
+                <label>Имя пользователя</label>
+                <input asp-for="Name" value="Имя" type="text">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input asp-for="Password" value="Пароль" type="text">
+            </div>
+            <button type="submit" class="btn">Войти</button>
+            <a href="/createpage">Регистрация</a>
+        </form>
+        <div class="glass">
+        </div>
+        <div class="r-first"></div>
+        <div class="r-second"></div>
+        <img src="~/Images/Common/vhod.png" alt="" class="cat">
+    </div>
+    <script src="~/signin/script.js"></script>
+</body>
+</html>
+
+@functions{
+    public class LoginPage : PageModel
+    {
+        private ICustomerRepository customerRepository;
+
+        public LoginPage(ICustomerRepository customerRepository)
+        {
+            this.customerRepository = customerRepository;
+        }
+
+        [BindProperty]
+        public string Name { get; set; }
+
+        [BindProperty]
+        public string Password { get; set; }
+
+        public async Task<IActionResult> OnGet()
+        {
+            await Signing.SignOutAsync(HttpContext);
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Password))
+            {
+                Customer? customer = customerRepository.GetCustomerByNameAndPassword(Name, Password);
+
+                if (customer != null)
+                {
+                    LoginModel model = new LoginModel()
+                    {
+                        Name = customer.Name,
+
+                        Email = customer.Email,
+
+                        Role = customer.Role
+                    };
+
+                    await Signing.SignInAsync(model, HttpContext);
+
+                    return Redirect("/mainpage");
+                }
+            }
+
+            return Page();
+        }
+    }
+}

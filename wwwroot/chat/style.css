@@ -1,0 +1,148 @@
+body{
+    background-color: rgb(24, 25, 23);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+}
+
+body a{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+header{
+    padding: 7px;
+    background-color:rgb(40, 37, 37);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.refs{
+    margin-right: 5px;
+}
+
+header img{
+    height: 45px;
+    width: auto;
+}
+
+.grid{
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    margin-right: 15px;
+    border-radius: 8px;
+}
+
+.login{
+    margin-right: 5px;
+}
+
+.admin-title{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+
+.chat-container{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.chat-pannel{
+    width: 40%;
+    height: 600px;
+    border: 2px solid rgb(235, 88, 162);
+    background-color: rgb(21, 22, 22);
+    border-radius: 7px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.chat-title{
+    display: flex;
+    border-bottom: 2px solid rgb(235, 88, 162);
+    padding: 5px;
+    align-items: center;
+}
+
+.chat-title img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.send-group{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    border-top: 2px solid rgb(235, 88, 162);
+    height: 30px;
+}
+
+.send-group input{
+    flex-grow: 5;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    padding-left: 5px;
+    background-color: rgb(21, 22, 22);
+}
+
+.send-group button{
+    flex-grow: 1;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    text-align: center;
+    background-color: rgb(235, 88, 162);
+    color: white;
+    cursor: pointer;
+}
+
+.message-box{
+    font-size: 16px;
+    padding: 3px;
+    overflow-y: scroll;
+}
+
+.message-box::-webkit-scrollbar{
+    width: 0;
+}
+
+.mess{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.mess div{
+    width: 60%;
+    word-break: keep-all;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.user{
+    align-items: flex-end;
+}
+
+.user-context{
+    background-color: rgb(235, 88, 162);
+}
+
+.admin-context{
+    background-color: rgb(58, 54, 54);
+}

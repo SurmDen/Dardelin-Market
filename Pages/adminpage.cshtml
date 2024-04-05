@@ -1,0 +1,308 @@
+﻿@page "/adminpage"
+@model AdminPage
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin page</title>
+    <link rel="stylesheet" href="~/admin/style.css">
+</head>
+<body>
+    <header>
+        <div class="shop-name grid">
+            <img class="logo" src="~/Images/Common/logotip.png" alt="">
+            <img class="shop-title" src="~/Images/Common/nazvanie.png" alt="">
+        </div>
+        <div class="refs grid">
+            <a class="login" href="/loginpage">
+                <img src="~/Images/Common/exit.png" alt="">
+            </a>
+        </div>
+    </header>
+    <div class="top-padding">
+    </div>
+    <div class="admin-title">
+        ПАННЕЛЬ УПРАВЛЕНИЯ
+    </div>
+    <div class="control-pannel">
+        <a href="#" class="control-element color-1 for-orders">
+            <div class="info">
+                <div class="info-title">
+                    Всего заказов
+                </div>
+                <div class="info-data">
+                    @Model.OrdersCount
+                </div>
+            </div>
+            <img src="~/admin/images/order.png" alt="">
+        </a>
+        <a href="#" class="control-element color-2 for-users">
+            <div class="info">
+                <div class="info-title">
+                    Пользователи
+                </div>
+                <div class="info-data">
+                    @Model.Customers.Count()
+                </div>
+            </div>
+            <img src="~/admin/images/users.png" alt="">
+        </a>
+        <a href="#" class="control-element color-3 for-visitors">
+            <div class="info">
+                <div class="info-title">
+                    Посетители
+                </div>
+                <div class="info-data">
+                    @Model.IpDataModels.Count()
+                </div>
+            </div>
+            <img src="~/admin/images/eye.png" alt="">
+        </a>
+        <a href="#" class="control-element color-4 for-goods">
+            <div class="info">
+                <div class="info-title">
+                    Товары
+                </div>
+                <div class="info-data">
+                    @Model.Products.Count()
+                </div>
+            </div>
+            <img src="~/admin/images/goods.png" alt="">
+        </a>
+        <a href="#" class="control-element color-5 for-messages">
+            <div class="info">
+                <div class="info-title">
+                    Сообщения
+                </div>
+                <div class="info-data">
+                    @Model.Chats.Select(c => c.Messages).Count()
+                </div>
+            </div>
+            <img src="~/admin/images/messages.png" alt="">
+        </a>
+    </div>
+    <div class="visitors-pannel part">
+        <div class="visitor v-header">
+            <div>
+                IP адрес
+            </div>
+            <div>
+                время посещения
+            </div>
+            <div>
+                населенный пункт
+            </div>
+            <div class="v-last">
+                количество посещений
+            </div>
+        </div>
+        @if (Model.IpDataModels.Count() != 0)
+        {
+            foreach (var ip in Model.IpDataModels)
+            {
+                <div class="visitor">
+                    <div class="ip">
+                        @ip.IpAddress
+                    </div>
+                    <div>
+                        @ip.Time
+                    </div>
+                    <div>
+                        @ip.City
+                    </div>
+                    <div class="v-last">
+                        @ip.Count
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="dialogs-space part">
+        <div class="dialog-pannel">
+            <div class="dialog-title">
+                Сообщения
+            </div>
+            <div class="dialog-list">
+                @if (Model.Chats.Count() != 0)
+                {
+                    foreach (var d in Model.Chats)
+                    {
+                        <a href="/chatpannel/@d.UserId" class="dialog">
+                            <div class="user-dialog-data">
+                                <img src="~/Images/Common/user.png" alt="">
+                                <span>@Model.Customers.First(c => c.Id == d.UserId).Name</span>
+                            </div>
+                            <div class="last-message">
+                                @if (d.Messages.Count() != 0)
+                                {
+                                    @d.Messages.Last().MessageContext
+                                }
+                            </div>
+                            <div class="message-counter">
+                                @d.Messages.Count()
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="order-space part">
+        <div class="order-pre-list">
+            <div class="order-list">
+                @foreach (var c in Model.Customers)
+                {
+                    if (c.Orders.Where(o => o.IsShipped == false).Count() != 0)
+                    {
+                        
+
+
+                        foreach (var or in c.Orders.Where(o => o.IsShipped == false))
+                        {
+                            <div class="order">
+                                <div class="cust-order-title">
+                                    <span class="c-name">@c.Name</span>
+                                    <span>(@c.PostAddress)</span>
+                                </div>
+                                <div class="order-info">
+                                    <div class="order-prod-list">
+                                        @foreach (var prod in or.OrderModels)
+                                        {
+                                            <div class="ordered-product">
+                                                <span>@Model.Products.First(p =>p.Id == prod.ProdId).ProductName</span>
+                                                <span class="or-prod-cost">@prod.Count</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <form asp-page="adminpage" class="order-summary" method="post">
+                                    <input type="hidden" value="@or.Id" asp-for="PostOrderId" >
+                                    <button type="submit" class="ship">отправить</button>
+                                </form>
+                            </div>
+                        }
+                    }
+                    
+                }
+                @if (Model.IsOrdersEmpty)
+                {
+                    <div style="font-size:25px">Новых заказов пока нет</div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="product-space part">
+        @if (Model.Products.Count() != 0)
+        {
+            <div style="display:flex;justify-content:center;align-items:center; margin:20px">
+                <a class="cr-prod" href="/createprod">Создать новый</a>
+            </div>
+            <div class="prod-list">
+                @foreach (var p in Model.Products)
+                {
+
+                    <div class="product">
+                        <div class="pre-img">
+                            <img class="prod-image" src="@p.ImagePath" alt="">
+                            <div class="sales">
+                                <span>-@p.Sales</span>
+                                <img src="~/Images/Common/percents.png" alt="">
+                            </div>
+                        </div>
+                        <div class="prod-title">
+                            @p.ProductName
+                        </div>
+                        <div class="cost-busket">
+                            <div class="cost">
+                                <span>@p.Price</span>
+                                <img class="ruble" src="~/Images/Common/ruble.png" alt="">
+                            </div>
+                            <div>
+                                <a href="/prodedit/@p.Id" class="busket"><img src="~/admin/images/editt.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <script src="~/admin/script.js"></script>
+</body>
+</html>
+
+@functions{
+    public class AdminPage : PageModel
+    {
+        private ICustomerRepository customerRepository;
+
+        private IChatRepository chatRepository;
+
+        private IProductRepository productRepository;
+
+        private IBasketRepository basketRepository;
+
+        public AdminPage(ICustomerRepository customerRepository, 
+            IChatRepository chatRepository, IProductRepository productRepository, IBasketRepository basketRepository)
+        {
+            this.customerRepository = customerRepository;
+
+            this.chatRepository = chatRepository;
+
+            this.productRepository = productRepository;
+
+            this.basketRepository = basketRepository;
+
+        }
+
+        [BindProperty]
+        public long PostOrderId { get; set; }
+
+        public Customer CurrentCustomer { get; set; }
+
+        public List<Chat> Chats { get; set; } = new List<Chat>();
+
+        public List<Customer> Customers { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
+
+        public int OrdersCount { get; set; }
+
+        public List<IpDataModel> IpDataModels { get; set; } = new List<IpDataModel>();
+
+        public bool IsOrdersEmpty { get; set; } = true;
+
+        public IActionResult OnGet()
+        {
+            string name = User.Identity.Name;
+
+            string email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            CurrentCustomer = customerRepository.GetCustomerByNameAndEmail(name, email);
+
+            Customers = customerRepository.GetAllCustomers().ToList();
+
+            Chats = chatRepository.GetChats().ToList();
+
+            Products = productRepository.GetProducts().ToList();
+
+            OrdersCount = Customers.Select(c => c.Orders).Count();
+
+            IpDataModels = customerRepository.GetIpDataModels().ToList();
+
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            basketRepository.ShipOrder(PostOrderId);
+
+            return Redirect("/adminpage");
+        }
+    }
+}
